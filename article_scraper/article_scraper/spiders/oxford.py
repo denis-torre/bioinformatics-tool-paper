@@ -70,13 +70,13 @@ class JournalSpider(scrapy.Spider):
                 ## Get data ()
                 article_title = ''.join(article.css('.wi-article-title::text, .wi-article-title em::text').extract()).strip()
                 # Html differs for authors depensin gon the type of page, if they first doesn't work, try the second page type
-                authors = article.css('.wi-authors .al-author-name .info-card-name::text').extract()
-                if len (authors)<1:
-                    authors = article.css('.wi-authors .al-author-name-more .info-card-name::text').extract()
-                # check for hidden authors in page
-                additional_authors = article.css('.wi-authors .remaining-authors .info-card-name::text').extract()
-                if len(additional_authors)>0:
-                    authors = list(authors)+list(additional_authors)
+                authors = article.css('.wi-authors .info-card-name::text').extract()
+                # if len (authors)<1:
+                #     authors = article.css('.wi-authors .al-author-name-more .info-card-name::text').extract()
+                # # check for hidden authors in page
+                # additional_authors = article.css('.wi-authors .remaining-authors .info-card-name::text').extract()
+                # if len(additional_authors)>0:
+                #     authors = list(authors)+list(additional_authors)
                 doi = article.css('.ww-citation-primary a::text').extract_first()
                 date = article.css('.citation-date::text').extract_first()
                 links= list(set([a.css('::attr("href")').extract_first() for a in article.css('.abstract a') if check_url(a)]))
